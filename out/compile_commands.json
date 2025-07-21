@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/Atila/Github/RMoc/out",
-  "command": "gcc -I/home/Atila/Github/RMoc/include -g -std=gnu2x -Wall -Wextra -pedantic -o CMakeFiles/main.dir/src/main.c.o -c /home/Atila/Github/RMoc/src/main.c",
-  "file": "/home/Atila/Github/RMoc/src/main.c",
-  "output": "CMakeFiles/main.dir/src/main.c.o"
-}
-]

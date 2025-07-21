@@ -1,0 +1,3 @@
+/home/Atila/Github/RMoc/out/CMakeFiles/main.dir
+/home/Atila/Github/RMoc/out/CMakeFiles/edit_cache.dir
+/home/Atila/Github/RMoc/out/CMakeFiles/rebuild_cache.dir

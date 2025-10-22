@@ -94,16 +94,18 @@ ctest -VV
 
 echo ""
 sleep .2s
-"bin/test_runner"
 
-echo ""
 echo "Moving compiled commands for linking headers..."
 cp "compile_commands.json" "../"
 
-
 echo ""
 echo "Executing program..."
-echo ""
-cd ..
-"$OUT_DIR/bin/${PWD##*/}"
+mapfile -t files < <(find "$PWD/bin")
+
+for file in "${files[@]}"; do
+  if [[ -f "$file" && -x "$file" && "$file" != *"test"* ]]; then
+      echo ""
+      "$file"
+  fi
+done
 echo ""

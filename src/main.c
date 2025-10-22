@@ -2,7 +2,6 @@
 #include "util.h"
 	
 int main(void){
-char line[256];
-printf("Hello World");
-fgets(line, sizeof(line), stdin);
+  int test = add(1,2);
+  printf("Yes %d", test);
 }

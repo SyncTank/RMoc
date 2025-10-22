@@ -16,7 +16,7 @@ else
     echo "Directory already exists: $OUT_DIR"
 fi
 
-# Check if the src directory exists, if not, create it | C code
+# Check if the src directory exists, if not, create it | inject main C code
 if [ ! -d "$SRC_DIR" ]; then
     echo "Creating directory: $SRC_DIR"
     mkdir -p "$SRC_DIR"
@@ -79,12 +79,31 @@ cd "$OUT_DIR"
 cmake -G "Ninja" -DBUILD_TESTING=ON ..
 ninja
 
+sleep .2s
 # Testing with different verbosity levels
 echo -e "\n\033[1;34m=== Basic test listing ===\033[0m"
 ctest -N
 
+sleep .2s
 echo -e "\n\033[1;34m=== Running tests with output on failure ===\033[0m"
 ctest --output-on-failure
 
+sleep .2s
 echo -e "\n\033[1;34m=== Verbose test output ===\033[0m"
 ctest -VV
+
+echo ""
+sleep .2s
+"bin/test_runner"
+
+echo ""
+echo "Moving compiled commands for linking headers..."
+cp "compile_commands.json" "../"
+
+
+echo ""
+echo "Executing program..."
+echo ""
+cd ..
+"$OUT_DIR/bin/${PWD##*/}"
+echo ""

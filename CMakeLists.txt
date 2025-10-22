@@ -5,6 +5,7 @@ set(PROJECT_VERSION 1.0.0)
 # Compiler settings
 set(CMAKE_C_STANDARD 23)
 #set(CMAKE_C_COMPILER "gcc")
+#set(CMAKE_C_COMPILER "clangd")
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -22,7 +23,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 # Include directories for both library and executable
 target_include_directories(${PROJECT_NAME}_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    #${CMAKE_CURRENT_SOURCE_DIR}/include/math
+    #${CMAKE_CURRENT_SOURCE_DIR}/include/GLFW
     #${CMAKE_CURRENT_SOURCE_DIR}/include/utils
 )
 

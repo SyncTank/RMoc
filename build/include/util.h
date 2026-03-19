@@ -1,12 +1,17 @@
+#ifndef UTIL
+#define UTIL
 int add(int a, int b);
-#ifdef UTIL_H
+#endif
+
+#ifdef UTIL_IMPL
 int add(int a, int b){return a+b;}
 #endif
 
 #ifndef STDIO
-#include <stdlib.h>
+#define STDIO
 #endif
 
+#ifdef STDIO_IMPL
 typedef struct VaultString
 {
   const char* const var; // immutable pointer and char | READ-ONLY
@@ -44,3 +49,4 @@ typedef struct charvec {
   size_t capacity;
   char* item[]; // array of char pointers
 } Words;
+#endif

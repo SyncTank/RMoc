@@ -62,7 +62,7 @@ mapfile -t files < <(find "$PWD/bin")
 for file in "${files[@]}"; do
   if [[ -f "$file" && -x "$file" && "$file" != *"test"* ]]; then
       echo ""
-      "$file"
+      "$file" $*
   fi
 done
 echo ""

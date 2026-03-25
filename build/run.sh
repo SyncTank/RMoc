@@ -1,13 +1,21 @@
 #!/bin/bash
-
 # Define the directories
 OUT_DIR="out"
 SRC_DIR="src"
 INCLUDE_DIR="include"
+BUILD_TYPE="Debug"  # default
 
-LIB_FILE="BUILDC"
+# Parse args - allow ./run.sh release or ./run.sh debug
+for arg in "$@"; do
+    case "$arg" in
+        release|Release) BUILD_TYPE="Release" ;;
+        debug|Debug)     BUILD_TYPE="Debug" ;;
+    esac
+done
 
-# Check if the out directory exists, if not, create it | outputs
+echo "Build type: $BUILD_TYPE"
+
+# Check if the out directory exists, if not, create it
 if [ ! -d "$OUT_DIR" ]; then
     echo "Creating directory: $OUT_DIR"
     mkdir -p "$OUT_DIR"
@@ -15,28 +23,28 @@ else
     echo "Directory already exists: $OUT_DIR"
 fi
 
-# Check if the src directory exists, if not, create it | inject main C code
+# Check if the src directory exists, if not, create it
 if [ ! -d "$SRC_DIR" ]; then
     echo "Creating directory: $SRC_DIR"
     mkdir -p "$SRC_DIR"
-	echo "#include <stdio.h>
+    echo "#include <stdio.h>
 #include \"util.h\"
-	
+
 int main(void){
 char line[256];
 printf(\"Hello World\");
 fgets(line, sizeof(line), stdin);
 }" > "$SRC_DIR/main.c"
-	echo "int add(int a, int b){return a+b;}" > "$SRC_DIR/util.c"
+    echo "int add(int a, int b){return a+b;}" > "$SRC_DIR/util.c"
 else
     echo "Directory already exists: $SRC_DIR"
 fi
 
-# Check if the include directory exists, if not, create it | headers
+# Check if the include directory exists, if not, create it
 if [ ! -d "$INCLUDE_DIR" ]; then
     echo "Creating directory: $INCLUDE_DIR"
     mkdir -p "$INCLUDE_DIR"
-	echo "#ifndef UTIL_H
+    echo "#ifndef UTIL_H
 #define UTIL_H
 int add(int a, int b);
 #endif" > "$INCLUDE_DIR/util.h"
@@ -45,24 +53,28 @@ else
 fi
 
 cd "$OUT_DIR"
-
-cmake -G "Ninja" -DBUILD_TESTING=ON ..
+cmake -G "Ninja" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON ..
 ninja
 
 echo ""
 sleep .2s
-
 echo "Moving compiled commands for linking headers..."
 cp "compile_commands.json" "../"
+
+# Don't run the program on release, just build
+if [ "$BUILD_TYPE" = "Release" ]; then
+    echo "Release build complete. Binary at: $OUT_DIR/bin/"
+    exit 0
+fi
 
 echo ""
 echo "Executing program..."
 mapfile -t files < <(find "$PWD/bin")
-
 for file in "${files[@]}"; do
   if [[ -f "$file" && -x "$file" && "$file" != *"test"* ]]; then
       echo ""
       "$file" $*
   fi
 done
+
 echo ""

@@ -6,8 +6,11 @@ set(PROJECT_VERSION 1.0.0)
 set(CMAKE_C_STANDARD 23)
 #set(CMAKE_C_COMPILER "gcc")
 #set(CMAKE_C_COMPILER "clangd")
-set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)  # default to debug if not specified
+endif()
 
 # Source files
 file(GLOB LIB_SOURCES src/*.c)

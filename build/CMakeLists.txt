@@ -27,6 +27,12 @@ target_include_directories(${PROJECT_NAME}_lib PUBLIC
     #${CMAKE_CURRENT_SOURCE_DIR}/include/utils
 )
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/GLFW
+    #${CMAKE_CURRENT_SOURCE_DIR}/include/utils
+)
+
 # Compile options for both
 target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -pedantic -Werror)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
@@ -46,12 +52,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
-# Enable testing
-#if(BUILD_TESTING)
-#enable_testing()
-#    add_subdirectory(tests)
-#endif()
 
 # Install step (optional)
 install(TARGETS ${PROJECT_NAME}
